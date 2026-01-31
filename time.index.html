@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>纪念日时钟</title>
+  <style>
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #fff6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      padding: 24px 28px;
+      width: 320px;
+    }
+
+    .clock {
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .date {
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .countdown {
+      background: #ffe4ec;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .countdown-title {
+      font-size: 14px;
+      color: #c04a6a;
+      margin-bottom: 6px;
+    }
+
+    .countdown-days {
+      font-size: 22px;
+      font-weight: bold;
+      color: #b03052;
+    }
+
+    .notes {
+      font-size: 14px;
+    }
+
+    .notes h4 {
+      margin: 0 0 8px 0;
+      font-size: 15px;
+    }
+
+    .notes ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .notes li {
+      margin-bottom: 6px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="clock" id="clock">00:00:00</div>
+  <div class="date" id="date">加载中...</div>
+
+  <div class="countdown">
+    <div class="countdown-title">距离纪念日还有</div>
+    <div class="countdown-days" id="days">0 天</div>
+  </div>
+
+  <div class="notes">
+    <h4>📌 注意事项</h4>
+    <ul>
+      <li>不要忘记重要的日子</li>
+      <li>提前准备小惊喜</li>
+      <li>给彼此多一点耐心</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    document.getElementById("clock").textContent =
+      `${hours}:${minutes}:${seconds}`;
+
+    const dateStr = now.toLocaleDateString("zh-CN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long"
+    });
+    document.getElementById("date").textContent = dateStr;
+  }
+
+  function updateCountdown() {
+    const anniversary = new Date("2024-12-07");
+    const today = new Date();
+
+    const diffTime = anniversary - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    document.getElementById("days").textContent =
+      diffDays >= 0 ? `${diffDays} 天` : `已过去 ${Math.abs(diffDays)} 天`;
+  }
+
+  updateClock();
+  updateCountdown();
+  setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
